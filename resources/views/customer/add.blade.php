@@ -30,9 +30,9 @@
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-name"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">账号</div>
+                                    <div class="item-title label">顾客名称</div>
                                     <div class="item-input">
-                                    <input type="text" placeholder="输入账号" name="account" id="account" class="form-input" data-empty="账号" @if($user != "")value="{{$user->account}}"@endif>
+                                    <input type="text" placeholder="输入顾客名称" name="name" id="name" class="form-input" data-empty="顾客名称" @if($user != "")value="{{$user->account}}"@endif>
                                     </div>
                                 </div>
                             </div>
