@@ -1,0 +1,66 @@
+.panel {
+  background-color: #dbdbdb;
+}
+.panel .avatar {
+  background-image: url('resources/assets/images/1770172-0-1480340634.jpg');
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: 2px solid black;
+  border-radius: 75px;
+  margin-bottom: 20px;
+}
+.empty-page {
+  width: 100%;
+  height: 100%;
+}
+.empty-page div {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  height: 100px;
+  text-align: center;
+}
+.view.login .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.view.login .container .login-area {
+  width: 290px;
+  height: 350px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px;
+}
+.view.login .container .login-area input,
+.view.login .container .login-area .button-area {
+  width: 200px;
+  margin-top: 20px;
+}
+.view.login .container .login-area input {
+  border: 0px;
+  border-bottom: 1px solid gray;
+  line-height: 20px;
+}
+.view.login .container .login-area .button-area {
+  margin: 20px auto;
+  background-color: #1c2089;
+  padding: 5px;
+  border-radius: 20px;
+  font-weight: 900;
+}
+.view.login .container .login-area .button-area a {
+  color: yellow;
+}
+.view.login .container .login-area .logo {
+  width: 200px;
+}
