@@ -93,7 +93,6 @@ class storeController extends Controller
         $user = "";
         if($id > 0){
             $user = Customer::find($id);
-            dd($user);
         }
         return view('customer/add',compact('user'));
     }
