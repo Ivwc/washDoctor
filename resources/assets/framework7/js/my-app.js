@@ -101,6 +101,49 @@ var myApp = '',
         });
     });
 
+    myApp.onPageInit('customer-add', function(page) {
+        $('.add-customer-submit').on('click', function() {
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var mobile = $('#mobile').val();
+            var addr = $('#addr').val();
+            var notice = $('#notice').val();
+            var chk = chkform('customer-form');
+            var _token = $('input[name=_token]').val();
+            var type = $('input[name=type]').val();
+            var customerId = $('input[name=customerId]').val();
+            var url = "";
+            if (chk.status) {
+                if (type == 'add') {
+                    url = "customer/add";
+                } else if (type == "edit") {
+                    url = "customer/edit";
+                }
+                $$.post(url, {
+                    id: customerId,
+                    name: name,
+                    phone: phone,
+                    mobile: mobile,
+                    addr: addr,
+                    notice: notice,
+                    _token: _token
+                }, function(data) {
+                    console.log(data);
+                    mainView.router.refreshPreviousPage();
+                    myApp.alert(data.msg, function() {
+                        if (data.status == '200') {
+                            mainView.router.back();
+                        }
+                    });
+                }, 'json');
+            } else {
+                myApp.alert(chk.error);
+            }
+
+        });
+
+    });
+
     myApp.onPageInit('dynamic-pages', function(page) {
         console.log('dynamic-pages');
     });

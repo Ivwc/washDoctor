@@ -2,7 +2,7 @@
     <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
     <div class="pages navbar-through toolbar-through">
         <!-- Page, "data-page" contains page name -->
-        <div data-page="personnel-add" class="page">
+        <div data-page="customer-add" class="page">
           <!-- Top Navbar-->
           <div class="navbar">
               <div class="navbar-inner">
@@ -21,10 +21,10 @@
             <div class="page-content">
                 <div class="content-block-title">所有栏位都是必填噢~</div>
                 <div class="list-block">
-                    <ul class="personnel-form">
+                    <ul class="customer-form">
                       {{csrf_field()}}
                       <input type="hidden" name="type" id="type" @if($user !="") value="edit" @else value="add" @endif>
-                    <input type="hidden" name="personnelId" id="personnelId" @if($user !="") value="{{$user->id}}" @endif>
+                      <input type="hidden" name="customerId" id="customerId" @if($user !="") value="{{$user->id}}" @endif>
                         <!-- Text inputs -->
                         <li>
                             <div class="item-content">
@@ -32,7 +32,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">顾客名称</div>
                                     <div class="item-input">
-                                    <input type="text" placeholder="输入顾客名称" name="name" id="name" class="form-input" data-empty="顾客名称" @if($user != "")value="{{$user->account}}"@endif>
+                                    <input type="text" placeholder="输入顾客名称" name="name" id="name" class="form-input" data-empty="顾客名称" @if($user != "")value="{{$user->name}}"@endif>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">电话</div>
                                     <div class="item-input">
-                                        <input type="number" placeholder="输入电话"  name="phone" id="phone" class="form-input" data-empty="电话" @if($user != "")value="{{$user->password}}"@endif>
+                                        <input type="number" placeholder="输入电话"  name="phone" id="phone" class="form-input" data-empty="电话" @if($user != "")value="{{$user->phone}}"@endif>
                                     </div>
                                 </div>
                             </div>
@@ -53,9 +53,9 @@
                           <div class="item-content">
                               <div class="item-media"><i class="icon icon-form-name"></i></div>
                               <div class="item-inner">
-                                  <div class="item-title label">姓名</div>
+                                  <div class="item-title label">手机</div>
                                   <div class="item-input">
-                                    <input type="text" placeholder="输入值称" name="name" id="name" class="form-input" data-empty="姓名" @if($user != "")value="{{$user->name}}"@endif>
+                                    <input type="text" placeholder="输入手机" name="mobile" id="mobile" class="form-input" data-empty="手机" @if($user != "")value="{{$user->mobile}}"@endif>
                                   </div>
                               </div>
                           </div>
@@ -65,12 +65,23 @@
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-name"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">职称</div>
+                                    <div class="item-title label">地址</div>
                                     <div class="item-input">
-                                      <input type="text" placeholder="输入值称" name="title" id="title" class="form-input" data-empty="职称" @if($user != "")value="{{$user->title}}"@endif>
+                                      <input type="text" placeholder="输入值称" name="addr" id="addr" class="form-input" data-empty="地址" @if($user != "")value="{{$user->addr}}"@endif>
                                     </div>
                                 </div>
                             </div>
+                        </li>
+                        <li class="align-top">
+                          <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                              <div class="item-title label">注意事项(选填)</div>
+                              <div class="item-input">
+                                <textarea placeholder="ex:先打电话约时间..." name="notice" id="notice">@if($user != ""){{$user->notice}}@endif</textarea>
+                              </div>
+                            </div>
+                          </div>
                         </li>
 
 
@@ -173,7 +184,7 @@
             <!-- Bottom Toolbar-->
             <div class="toolbar">
                 <div class="toolbar-inner">
-                    <a href="#" class="link add-personnel-submit">送出</a>
+                    <a href="#" class="link add-customer-submit">送出</a>
                 </div>
             </div>
         </div>

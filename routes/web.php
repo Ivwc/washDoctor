@@ -60,5 +60,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::post('/loginmethods/login', 'loginController@dologin');
 Route::post('/personnel/add', 'storeController@add_personnel');
 Route::post('/personnel/edit', 'storeController@edit_personnel');
+Route::post('/customer/add', 'storeController@add_customer');
+Route::post('/customer/edit', 'storeController@edit_customer');
 
 

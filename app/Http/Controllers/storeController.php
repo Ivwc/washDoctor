@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Customer;
 
 class storeController extends Controller
 {
@@ -82,7 +83,7 @@ class storeController extends Controller
 
     public function customer_list()
     {   
-        $users = User::where('store',session('store'))->where('level','>','0')->get();
+        $users = Customer::where('store',session('store'))->get();
         // dd($users);
         return view('customer/list',compact('users'));
     }
@@ -91,9 +92,55 @@ class storeController extends Controller
     {   
         $user = "";
         if($id > 0){
-            $user = User::find($id);
+            $user = Customer::find($id);
+            dd($user);
         }
         return view('customer/add',compact('user'));
+    }
+
+    public function add_customer(Request $request)
+    {   
+        $data = $request->except('_token');
+        $data['store'] = session('store');
+        if(session('level') == 0){
+            $res = Customer::firstOrCreate($data);
+            if($res->wasRecentlyCreated){
+                // echo "新增成功";
+                $json_arr['status'] = '200';
+                $json_arr['msg'] = '新增成功';
+            }else{
+                // echo "新增失败";
+                $json_arr['status'] = '400';
+                $json_arr['msg'] = '新增失败，请稍后再试，或联络管理员';
+            }
+        }else{
+            $json_arr['status'] = '400';
+            $json_arr['msg'] = '权限不足，或联络管理员';
+        }
+
+        return $json_arr;
+    }
+    public function edit_customer(Request $request)
+    {   
+        $data = $request->except('_token','id');
+        $data['store'] = session('store');
+        if(session('level') == 0){
+            $res = Customer::find($request->input('id'))->update($data);
+            if($res){
+                // echo "新增成功";
+                $json_arr['status'] = '200';
+                $json_arr['msg'] = '更新成功';
+            }else{
+                // echo "新增失败";
+                $json_arr['status'] = '400';
+                $json_arr['msg'] = '更新失败，请稍后再试，或联络管理员';
+            }
+        }else{
+            $json_arr['status'] = '400';
+            $json_arr['msg'] = '权限不足，或联络管理员';
+        }
+
+        return $json_arr;
     }
 
 }
