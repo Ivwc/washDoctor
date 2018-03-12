@@ -41,9 +41,9 @@
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-name"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">密码</div>
+                                    <div class="item-title label">电话</div>
                                     <div class="item-input">
-                                        <input type="text" placeholder="输入密码"  name="password" id="password" class="form-input" data-empty="密码" @if($user != "")value="{{$user->password}}"@endif>
+                                        <input type="number" placeholder="输入电话"  name="phone" id="phone" class="form-input" data-empty="电话" @if($user != "")value="{{$user->password}}"@endif>
                                     </div>
                                 </div>
                             </div>
