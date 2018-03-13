@@ -81,6 +81,30 @@ class storeController extends Controller
         return $json_arr;
     }
 
+    public function remove_personnel(Request $request)
+    {
+        $id = $request->id;
+        if($id != ""){
+            if(is_numeric($id) && ctype_digit($id)){
+                $res = User::find($id)->delete();
+                if($res){
+                    $json_arr['status'] = '200';
+                    $json_arr['msg'] = '删除成功';    
+                }else{
+                    $json_arr['status'] == '204';
+                    $json_arr['msg'] = '资料库发生错误请稍后再试';        
+                }
+            }else{
+                $json_arr['status'] = '204';
+                $json_arr['msg'] = '资料形态错误';    
+            }
+        }else{
+            $json_arr['status'] = '400';
+            $json_arr['msg'] = '缺少资料';
+        }
+        return $json_arr;
+    }
+
     public function customer_list()
     {   
         $users = Customer::where('store',session('store'))->get();
@@ -139,6 +163,29 @@ class storeController extends Controller
             $json_arr['msg'] = '权限不足，或联络管理员';
         }
 
+        return $json_arr;
+    }
+    public function remove_customer(Request $request)
+    {
+        $id = $request->id;
+        if($id != ""){
+            if(is_numeric($id) && ctype_digit($id)){
+                $res = Customer::find($id)->delete();
+                if($res){
+                    $json_arr['status'] = '200';
+                    $json_arr['msg'] = '删除成功';    
+                }else{
+                    $json_arr['status'] == '204';
+                    $json_arr['msg'] = '资料库发生错误请稍后再试';        
+                }
+            }else{
+                $json_arr['status'] = '204';
+                $json_arr['msg'] = '资料形态错误';    
+            }
+        }else{
+            $json_arr['status'] = '400';
+            $json_arr['msg'] = '缺少资料';
+        }
         return $json_arr;
     }
 

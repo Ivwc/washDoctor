@@ -57,6 +57,26 @@ var myApp = '',
         myApp.alert('about');
     });
 
+    myApp.onPageInit('personnel-list', function(page) {
+        $('.remove-personnel-item').on('click', function() {
+            var id = $(this).closest('li').attr('data-id');
+            var _token = $('input[name="_token"]').val();
+            var target_li = $(this).closest('li');
+            myApp.alert('确认要删除吗?', function(e) {
+                $$.post('personnel/remove', {
+                    id: id,
+                    _token: _token
+                }, function(data) {
+                    if (data.status == '200') {
+                        myApp.swipeoutDelete(target_li);
+                    } else {
+                        myApp.alert(data.msg);
+                    }
+                }, 'json');
+            });
+        });
+    });
+
     myApp.onPageInit('personnel-add', function(page) {
         console.log('personnel-add');
 
@@ -98,6 +118,26 @@ var myApp = '',
             } else {
                 myApp.alert(chk.error);
             }
+        });
+    });
+
+    myApp.onPageInit('customer-list', function(page) {
+        $('.remove-customer-item').on('click', function() {
+            var id = $(this).closest('li').attr('data-id');
+            var _token = $('input[name="_token"]').val();
+            var target_li = $(this).closest('li');
+            myApp.alert('确认要删除吗?', function(e) {
+                $$.post('customer/remove', {
+                    id: id,
+                    _token: _token
+                }, function(data) {
+                    if (data.status == '200') {
+                        myApp.swipeoutDelete(target_li);
+                    } else {
+                        myApp.alert(data.msg);
+                    }
+                }, 'json');
+            });
         });
     });
 

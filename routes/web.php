@@ -44,23 +44,31 @@ Route::group(['middleware' => ['web','check.middleware']], function () {
         
     });
 
+    //代办
+    Route::group(['prefix' => 'todo'], function () {
+        Route::get('/list', 'todoController@todo_list');
+        Route::get('/add', 'todoController@todo_add');
+    });
+
 
 
 
     Route::get('/about', function () {
         return view('about');
     });
+    // API
+    Route::group(['middleware' => ['chkLevel.middleware']], function () {
+        Route::post('/loginmethods/login', 'loginController@dologin');
+        Route::post('/personnel/add', 'storeController@add_personnel');
+        Route::post('/personnel/edit', 'storeController@edit_personnel');
+        Route::post('/personnel/remove', 'storeController@remove_personnel');
+        Route::post('/customer/add', 'storeController@add_customer');
+        Route::post('/customer/edit', 'storeController@edit_customer'); 
+        Route::post('/customer/remove', 'storeController@remove_customer'); 
+    });
 });
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login', 'loginController@login');
 });
-
-
-// API
-Route::post('/loginmethods/login', 'loginController@dologin');
-Route::post('/personnel/add', 'storeController@add_personnel');
-Route::post('/personnel/edit', 'storeController@edit_personnel');
-Route::post('/customer/add', 'storeController@add_customer');
-Route::post('/customer/edit', 'storeController@edit_customer');
 
 

@@ -74,6 +74,28 @@
                         </a>
                     </li>
                 </ul>
+                {{--  <div class="list-block-label">List block label text goes here</div>  --}}
+            </div>
+            <div class="content-block-title">一般功能</div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="todo/add" class="item-link item-content close-panel">
+                          <div class="item-media"><i class="fas fa-address-card"></i></div>
+                          <div class="item-inner">
+                            <div class="item-title">新增待办</div>
+                          </div>
+                        </a>
+                    </li>
+                    {{--  <li>
+                        <a href="customer/list" class="item-link item-content close-panel">
+                          <div class="item-media"><i class="fas fa-address-card"></i></div>
+                          <div class="item-inner">
+                            <div class="item-title">顾客列表</div>
+                          </div>
+                        </a>
+                    </li>  --}}
+                </ul>
                 <div class="list-block-label">List block label text goes here</div>
             </div>
         </div>

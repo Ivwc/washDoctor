@@ -21,19 +21,21 @@
 
             <div class="page-content">
                 <div class="content-block-title">顾客名单</div>
+                @if(count($users) > 0)
                 <div class="list-block">
+                    {{csrf_field()}}
                     <ul>
-                        @if(count($users) > 0)
-                            @foreach ($users as $k=>$v)
-                            <a href="customer/add/{{$v->id}}" class="item-link">
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">
-                                            {{$v->name}}{{$v->title}}
-                                        </div>
-                                    </div>
+                        @foreach ($users as $k=>$v)
+                        <li class="swipeout" data-id="{{$v->id}}">
+                            <a href="customer/add/{{$v->id}}" class="swipeout-content item-content item-link">
+                                <div class="item-inner">
+                                    {{$v->name}}{{$v->title}}
                                 </div>
-                            </a>       
+                            </a>
+                            <div class="swipeout-actions-right">
+                                <a href="#" class="bg-red remove-customer-item">删除</a>
+                            </div>
+                        </li>  
                         @endforeach
                         {{--  <li class="item-content">
                             <div class="item-inner">
