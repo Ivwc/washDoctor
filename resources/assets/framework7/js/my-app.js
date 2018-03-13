@@ -44,7 +44,7 @@ var myApp = '',
             }, function(data) {
                 myApp.alert(data.msg, function() {
                     if (data.status == '200') {
-                        location.href = "/washDoctor/login";
+                        location.href = "/washDoctor";
                     }
                 });
             }, 'json');

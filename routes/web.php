@@ -56,19 +56,21 @@ Route::group(['middleware' => ['web','check.middleware']], function () {
     Route::get('/about', function () {
         return view('about');
     });
-    // API
-    Route::group(['middleware' => ['chkLevel.middleware']], function () {
-        Route::post('/loginmethods/login', 'loginController@dologin');
-        Route::post('/personnel/add', 'storeController@add_personnel');
-        Route::post('/personnel/edit', 'storeController@edit_personnel');
-        Route::post('/personnel/remove', 'storeController@remove_personnel');
-        Route::post('/customer/add', 'storeController@add_customer');
-        Route::post('/customer/edit', 'storeController@edit_customer'); 
-        Route::post('/customer/remove', 'storeController@remove_customer'); 
-    });
+    
 });
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login', 'loginController@login');
+});
+
+// API
+Route::post('/loginmethods/login', 'loginController@dologin');
+Route::group(['middleware' => ['chkLevel.middleware']], function () {
+    Route::post('/personnel/add', 'storeController@add_personnel');
+    Route::post('/personnel/edit', 'storeController@edit_personnel');
+    Route::post('/personnel/remove', 'storeController@remove_personnel');
+    Route::post('/customer/add', 'storeController@add_customer');
+    Route::post('/customer/edit', 'storeController@edit_customer'); 
+    Route::post('/customer/remove', 'storeController@remove_customer'); 
 });
 
 

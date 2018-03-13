@@ -9,7 +9,7 @@ use App\User;
 class loginController extends Controller
 {   
     public function login()
-    {
+    {   
         if(!session('account')){
             return view('login');
         }else{
@@ -17,7 +17,8 @@ class loginController extends Controller
         }
     }
     public function dologin(Request $request)
-    {
+    {   
+        
         $account = $request->account;
         $password = $request->password;
         
