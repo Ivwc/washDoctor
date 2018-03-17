@@ -54,6 +54,7 @@
            
         <!-- Right Panel with Cover effect -->
         <div class="panel panel-right panel-cover">
+            @if(session('level') == 0)
             <div class="content-block-title">店长功能</div>
             <div class="list-block">
                 <ul>
@@ -76,6 +77,7 @@
                 </ul>
                 {{--  <div class="list-block-label">List block label text goes here</div>  --}}
             </div>
+            @endif
             <div class="content-block-title">一般功能</div>
             <div class="list-block">
                 <ul>
@@ -102,12 +104,12 @@
         <!-- Your main view, should have "view-main" class -->
         @yield('content')
     </div>
+    <script type="text/javascript" src="{{url('resources/assets/js/jquery-3.2.1.min.js')}}"></script>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="{{url('resources/assets/framework7/js/framework7.min.js')}}"></script>
     <!-- Path to your app js-->
     <script type="text/javascript" src="{{url('resources/assets/framework7/js/my-function.js')}}"></script>
     <script type="text/javascript" src="{{url('resources/assets/framework7/js/my-app.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

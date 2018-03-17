@@ -12,19 +12,22 @@
                               <span>返回</span>
                           </a>
                       </div>
-                      <div class="center">新增人员</div>
+                      <div class="center">新增待办</div>
                       <div class="right">
                           {{--  <a href="#" class="open-panel" data-panel="right">功能选单</a>  --}}
                       </div>
                   </div>
               </div> 
                 <div class="page-content">
+                  @if($data == "empty")
+                  <div class="empty-page"><div>无此待办</div></div>
+                  @else
                     <div class="content-block-title">所有栏位都是必填噢~</div>
                     <div class="list-block">
                         <ul class="todo-form">
                             {{csrf_field()}}
-                            <input type="hidden" name="type" id="type" @if($user !="") value="edit" @else value="add" @endif>
-                            <input type="hidden" name="todoId" id="todoId" @if($user !="") value="{{$user->id}}" @endif>
+                            <input type="hidden" name="type" id="type" @if($data !="") value="edit" @else value="add" @endif>
+                            <input type="hidden" name="todoId" id="todoId" @if($data !="") value="{{$data->id}}" @endif>
                             
                             <li>
                                 <div class="item-content">
@@ -32,7 +35,7 @@
                                     <div class="item-inner">
                                         <div class="item-title label">时间</div>
                                         <div class="item-input">
-                                            <input type="datetime-local">
+                                            <input type="datetime-local" name="start_at" id="start_at"  class="form-input" data-empty="时间" @if($data !="") value="{{$data->start_at}}" @endif>
                                         </div>
                                     </div>
                                 </div>
@@ -41,49 +44,32 @@
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-form-name"></i></div>
                                     <div class="item-inner">
-                                        <div class="item-title label">密码</div>
+                                        <div class="item-title label">顾客</div>
                                         <div class="item-input">
-                                            <input type="text" placeholder="输入密码"  name="password" id="password" class="form-input" data-empty="密码" @if($user != "")value="{{$user->password}}"@endif>
+                                        <input type="text" placeholder="请输入顾客名称" name="customer" id="customer" class="form-input" data-empty="顾客" @if($data !="") value="{{$data->customer}}" @endif>
                                         </div>
                                     </div>
                                 </div>
                             </li>
     
-                            <li>
+                            <li class="align-top">
                               <div class="item-content">
-                                  <div class="item-media"><i class="icon icon-form-name"></i></div>
-                                  <div class="item-inner">
-                                      <div class="item-title label">姓名</div>
-                                      <div class="item-input">
-                                        <input type="text" placeholder="输入值称" name="name" id="name" class="form-input" data-empty="姓名" @if($user != "")value="{{$user->name}}"@endif>
-                                      </div>
-                                  </div>
-                              </div>
-                          </li>
-                            
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-name"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">职称</div>
-                                        <div class="item-input">
-                                          <input type="text" placeholder="输入值称" name="title" id="title" class="form-input" data-empty="职称" @if($user != "")value="{{$user->title}}"@endif>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-    
-                            <li>
-                              <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                <div class="item-media"><i class="icon icon-form-comment"></i></div>
                                 <div class="item-inner">
-                                  <div class="item-title label">权限</div>
+                                  <div class="item-title label">执行内容</div>
                                   <div class="item-input">
-                                    <select name="level" id="level" class="form-input" data-empty="权限">
-                                      <option value="">--选择权限--</option>
-                                      <option value="1" @if($user != "" && $user->level == '1')selected=""@endif>正职权限</option>
-                                      <option value="2" @if($user != "" && $user->level == '2')selected=""@endif>工读权限</option>
-                                    </select>
+                                    <textarea placeholder="填写要执行的内容" name="content" id="content" class="form-input" data-empty="执行内容">@if($data !=""){{$data->content}}@endif</textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="align-top">
+                              <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                                <div class="item-inner">
+                                  <div class="item-title label">注意事项(选填)</div>
+                                  <div class="item-input">
+                                  <textarea placeholder="注意事项每一个项目请用空格分开" name="notice" id="notice">@if($data !=""){{$data->notice}}@endif</textarea>
                                   </div>
                                 </div>
                               </div>
@@ -184,14 +170,18 @@
                             </li>  --}}
                         </ul>
                     </div>
-                       
+                  @endif     
                 </div>
                 <!-- Bottom Toolbar-->
+                @if($data == "empty")
+                  <div class="empty-page"><div>无此待办</div></div>
+                @else
                 <div class="toolbar">
                     <div class="toolbar-inner">
-                        <a href="#" class="link add-personnel-submit">送出</a>
+                        <a href="#" class="link add-todo-submit">送出</a>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

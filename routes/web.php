@@ -12,9 +12,7 @@
 */
 Route::group(['middleware' => ['web','check.middleware']], function () {
     //首页
-    Route::get('/', function () {
-        return view('welcome');
-    });   
+    Route::get('/', 'storeController@index');   
     
     //登入
     Route::get('/login', function () {
@@ -48,6 +46,9 @@ Route::group(['middleware' => ['web','check.middleware']], function () {
     Route::group(['prefix' => 'todo'], function () {
         Route::get('/list', 'todoController@todo_list');
         Route::get('/add', 'todoController@todo_add');
+        Route::get('/add/{id}', 'todoController@todo_add');
+        Route::post('/remove', 'todoController@todo_remove');
+        Route::post('/done', 'todoController@todo_done');
     });
 
 
@@ -64,13 +65,17 @@ Route::group(['middleware' => ['web']], function () {
 
 // API
 Route::post('/loginmethods/login', 'loginController@dologin');
+Route::post('/customer/get_customer', 'storeController@get_customer');
+Route::post('/todo/add_todo','todoController@add_todo');
+Route::post('/todo/edit_todo','todoController@edit_todo');
+Route::post('/todo/chk_todo_item','todoController@chk_todo_item');
 Route::group(['middleware' => ['chkLevel.middleware']], function () {
     Route::post('/personnel/add', 'storeController@add_personnel');
     Route::post('/personnel/edit', 'storeController@edit_personnel');
     Route::post('/personnel/remove', 'storeController@remove_personnel');
     Route::post('/customer/add', 'storeController@add_customer');
     Route::post('/customer/edit', 'storeController@edit_customer'); 
-    Route::post('/customer/remove', 'storeController@remove_customer'); 
+    Route::post('/customer/remove', 'storeController@remove_customer');
 });
 
 

@@ -26,6 +26,63 @@ var myApp = '',
 
     myApp.onPageInit('index', function(page) {
         console.log('index');
+        $('.todo-item').on('change', function() {
+            var _this = $(this);
+            var id = $(this).attr('data-id');
+            var take = "";
+            if ($(this).prop('checked')) {
+                take = "take";
+            } else {
+                take = "untake";
+            }
+            $$.post('todo/chk_todo_item', {
+                id: id,
+                take: take,
+                _token: $('input[name="_token"]').val()
+            }, function(data) {
+                console.log(data.status);
+                if (data.status == "200") {
+                    if (take == "take") {
+                        _this.closest('div').find('.taker-name').html(" (" + data.msg + ")");
+                    } else {
+                        _this.closest('div').find('.taker-name').html(" ");
+                        console.log(_this.closest('div').find('.taker-name'));
+                    }
+                } else {
+                    myApp.alert(data.msg);
+                }
+            }, 'json');
+        });
+
+        $('.remove_todo').on('click', function() {
+            var _this = $(this);
+            var id = $(this).closest('.card-footer').attr('data-id');
+            $$.post('todo/remove', {
+                id: id,
+                _token: $('input[name=_token]').val()
+            }, function(data) {
+                if (data.status == "200") {
+                    _this.closest('.card').fadeOut();
+                } else {
+                    myApp.alert(data.msg);
+                }
+            }, 'json');
+        });
+
+        $('.done_todo').on('click', function() {
+            var _this = $(this);
+            var id = $(this).closest('.card-footer').attr('data-id');
+            $$.post('todo/done', {
+                id: id,
+                _token: $('input[name=_token]').val()
+            }, function(data) {
+                if (data.status == "200") {
+                    _this.closest('.card').fadeOut();
+                } else {
+                    myApp.alert(data.msg);
+                }
+            }, 'json');
+        });
 
     });
 
@@ -54,7 +111,20 @@ var myApp = '',
 
     myApp.onPageInit('about', function(page) {
         console.log('about');
-        myApp.alert('about');
+        var fruits = ['apple', 'banana', 'watermelon', 'peach', 'pineapple', 'grape'];
+        var autocompleteDropdownAll = myApp.autocomplete({
+            input: '#autocomplete-dropdown-all',
+            openIn: 'dropdown',
+            source: function(autocomplete, query, render) {
+                var results = [];
+                // Find matched items
+                for (var i = 0; i < fruits.length; i++) {
+                    if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
+                }
+                // Render items by passing array with result items
+                render(results);
+            }
+        });
     });
 
     myApp.onPageInit('personnel-list', function(page) {
@@ -184,8 +254,80 @@ var myApp = '',
 
     });
 
+
+    // 待办事项
+    myApp.onPageInit('todo-add', function(page) {
+        $$.post('customer/get_customer', {
+            _token: $('input[name=_token]').val()
+        }, function(data) {
+            console.log(data);
+            var fruits = data;
+            var autocompleteDropdownAll = myApp.autocomplete({
+                input: '#customer',
+                openIn: 'dropdown',
+                source: function(autocomplete, query, render) {
+                    var results = [];
+                    // Find matched items
+                    for (var i = 0; i < fruits.length; i++) {
+                        if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
+                    }
+                    // Render items by passing array with result items
+                    render(results);
+                }
+            });
+        }, 'json');
+
+        $('.add-todo-submit').on('click', function() {
+            var start_at = $('#start_at').val();
+            var customer = $('#customer').val();
+            var content = $('#content').val();
+            var notice = $('#notice').val();
+            var todoId = $('#todoId').val();
+            var chk = chkform('todo-form');
+            var type = $('input[name=type]').val();
+            var url = "";
+            if (chk.status) {
+                if (type == 'add') {
+                    url = "todo/add_todo";
+                } else if (type == "edit") {
+                    url = "todo/edit_todo";
+                }
+                $$.post(url, {
+                    _token: $('input[name=_token]').val(),
+                    start_at: start_at,
+                    customer: customer,
+                    content: content,
+                    notice: notice,
+                    todoId: todoId
+                }, function(data) {
+                    mainView.router.refreshPreviousPage();
+                    myApp.alert(data.msg, function() {
+                        if (data.status == '200') {
+                            mainView.router.back();
+                        }
+                    });
+                }, 'json');
+            } else {
+                myApp.alert(chk.error);
+            }
+        });
+    });
+
     myApp.onPageInit('dynamic-pages', function(page) {
         console.log('dynamic-pages');
+    });
+
+    $$(document).on('ajaxStart', function(e) {
+        myApp.showIndicator();
+    });
+    $$(document).on('ajaxComplete', function(e) {
+        // $('.load-page').addClass('hidden');
+        // $('.data-page').removeClass('hidden');
+        // setTimeout(function() {
+        //     $('.page-on-center .load-page').addClass('hidden');
+        //     $('.page-on-center .data-page').removeClass('hidden');
+        // }, '500');
+        myApp.hideIndicator();
     });
 
 

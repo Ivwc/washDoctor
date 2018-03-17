@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{url('resources/assets/framework7/css/framework7.ios.colors.min.css')}}">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="{{url('resources/assets/framework7/css/my-app.css')}}">
+    <script type="text/javascript" src="resources/assets/js/jquery-3.2.1.min.js"></script>
   </head>
   <body>
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
@@ -35,9 +36,15 @@
           <div data-page="about" class="page">
             <!-- Scrollable page content -->
             <div class="page-content">
-              <p>Page content goes here</p>
-              <!-- Link to another page -->
-              <a href="about.html">About app</a>
+                <div class="list-block">
+                    <ul>
+                      <li class="item-content">
+                        <div class="item-title label">Fruit</div>
+                        <div class="item-input">
+                          <input type="text" placeholder="Fruit" id="autocomplete-dropdown-all"></div>
+                      </li>
+                    </ul>
+                </div>
             </div>
           </div>
         </div>

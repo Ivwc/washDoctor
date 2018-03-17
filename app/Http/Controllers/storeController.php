@@ -5,9 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Customer;
+use App\Todo;
+use App\Todo_notice;
 
 class storeController extends Controller
-{
+{   
+    public function index()
+    {   
+
+        $todo = Todo::where('store',session('store'))
+        ->whereBetween('start_at',[date('Y-m-d 00:00:00'),date('Y-m-d 23:59:59')])
+        ->where('status',0)
+        ->orderBy('start_at','ASC')
+        ->get()->all();
+        foreach ($todo as $key => $value) {
+            $todo[$key]['customer'] = Customer::find($value['customer']);
+            $todo[$key]['notice'] = Todo_notice::where('todoId',$value['id'])->get();
+            foreach ($todo[$key]['notice'] as $key2 => $value2) {
+                if($value2['taker'] != ""){
+                    $user = User::find($value2['taker']);
+                    $todo[$key]['notice'][$key2]['name'] = $user->name;
+                }
+            }
+        }
+        return view('welcome',compact('todo'));
+    }
+
+
     public function personnel_list()
     {   
         $users = User::where('store',session('store'))->where('level','>','0')->get();
@@ -187,6 +211,17 @@ class storeController extends Controller
             $json_arr['msg'] = '缺少资料';
         }
         return $json_arr;
+    }
+
+    public function get_customer()
+    {
+        $customer = Customer::where('store',session('store'))->get();
+        $customer_arr = array();
+        foreach ($customer->all() as $key => $value) {
+            $customer_str = $value->name."(".$value->id.")";
+            array_push($customer_arr,$customer_str);
+        }
+        return $customer_arr;
     }
 
 }
