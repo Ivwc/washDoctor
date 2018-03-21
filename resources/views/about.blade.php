@@ -63,4 +63,4 @@
     <!-- Path to your app js-->
     <script type="text/javascript" src="{{url('resources/assets/framework7/js/my-app.js')}}"></script>
   </body>
-</html> 
+</html>

@@ -57,31 +57,37 @@ var myApp = '',
         $('.remove_todo').on('click', function() {
             var _this = $(this);
             var id = $(this).closest('.card-footer').attr('data-id');
-            $$.post('todo/remove', {
-                id: id,
-                _token: $('input[name=_token]').val()
-            }, function(data) {
-                if (data.status == "200") {
-                    _this.closest('.card').fadeOut();
-                } else {
-                    myApp.alert(data.msg);
-                }
-            }, 'json');
+
+            myApp.confirm('确定要删除吗?', function() {
+                $$.post('todo/remove', {
+                    id: id,
+                    _token: $('input[name=_token]').val()
+                }, function(data) {
+                    if (data.status == "200") {
+                        _this.closest('.card').fadeOut();
+                    } else {
+                        myApp.alert(data.msg);
+                    }
+                }, 'json');
+            });
         });
 
         $('.done_todo').on('click', function() {
             var _this = $(this);
             var id = $(this).closest('.card-footer').attr('data-id');
-            $$.post('todo/done', {
-                id: id,
-                _token: $('input[name=_token]').val()
-            }, function(data) {
-                if (data.status == "200") {
-                    _this.closest('.card').fadeOut();
-                } else {
-                    myApp.alert(data.msg);
-                }
-            }, 'json');
+
+            myApp.confirm('确定完成了吗?', function() {
+                $$.post('todo/done', {
+                    id: id,
+                    _token: $('input[name=_token]').val()
+                }, function(data) {
+                    if (data.status == "200") {
+                        _this.closest('.card').fadeOut();
+                    } else {
+                        myApp.alert(data.msg);
+                    }
+                }, 'json');
+            });
         });
 
     });
@@ -150,6 +156,14 @@ var myApp = '',
     myApp.onPageInit('personnel-add', function(page) {
         console.log('personnel-add');
 
+        $('.user-avatar').on('click', function() {
+            console.log('click');
+            $('input[name=avatar]').click();
+        });
+        $('input[name=avatar]').on('change', function() {
+            getBase64($(this)[0].files[0]);
+        });
+
         $('.add-personnel-submit').on('click', function() {
             console.log('click');
             var account = $('#account').val();
@@ -161,7 +175,9 @@ var myApp = '',
             var _token = $('input[name=_token]').val();
             var type = $('input[name=type]').val();
             var personnelId = $('input[name=personnelId]').val();
+            var avatar = $('input[name=avatar]').attr('data-base64');
             var url = "";
+            // console.log(avatar);
             if (chk.status) {
                 if (type == 'add') {
                     url = "personnel/add";
@@ -170,6 +186,7 @@ var myApp = '',
                 }
                 $$.post(url, {
                     id: personnelId,
+                    avatar: avatar,
                     account: account,
                     password: password,
                     name: name,
@@ -300,6 +317,127 @@ var myApp = '',
                     notice: notice,
                     todoId: todoId
                 }, function(data) {
+                    mainView.router.refreshPreviousPage();
+                    myApp.alert(data.msg, function() {
+                        if (data.status == '200') {
+                            mainView.router.back();
+                        }
+                    });
+                }, 'json');
+            } else {
+                myApp.alert(chk.error);
+            }
+        });
+    });
+
+    myApp.onPageInit('todo-detail', function(page) {
+        $('.todo-item').on('change', function() {
+            var _this = $(this);
+            var id = $(this).attr('data-id');
+            var take = "";
+            if ($(this).prop('checked')) {
+                take = "take";
+            } else {
+                take = "untake";
+            }
+            $$.post('todo/chk_todo_item', {
+                id: id,
+                take: take,
+                _token: $('input[name="_token"]').val()
+            }, function(data) {
+                console.log(data.status);
+                if (data.status == "200") {
+                    if (take == "take") {
+                        _this.closest('div').find('.taker-name').html(" (" + data.msg + ")");
+                    } else {
+                        _this.closest('div').find('.taker-name').html(" ");
+                        console.log(_this.closest('div').find('.taker-name'));
+                    }
+                } else {
+                    myApp.alert(data.msg);
+                }
+            }, 'json');
+        });
+
+        $('.remove_todo').on('click', function() {
+            var _this = $(this);
+            var id = $(this).closest('.card-footer').attr('data-id');
+            myApp.confirm('确定要删除吗?', function() {
+                $$.post('todo/remove', {
+                    id: id,
+                    _token: $('input[name=_token]').val()
+                }, function(data) {
+                    mainView.router.refreshPreviousPage();
+                    myApp.alert(data.msg, function() {
+                        if (data.status == "200") {
+                            mainView.router.back();
+                        }
+                    });
+                }, 'json');
+            });
+        });
+
+        $('.done_todo').on('click', function() {
+            var _this = $(this);
+            var id = $(this).closest('.card-footer').attr('data-id');
+            myApp.confirm('确定完成了吗?', function() {
+                $$.post('todo/done', {
+                    id: id,
+                    _token: $('input[name=_token]').val()
+                }, function(data) {
+                    mainView.router.refreshPreviousPage();
+                    myApp.alert(data.msg, function() {
+                        if (data.status == "200") {
+                            mainView.router.back();
+                        }
+                    });
+                }, 'json');
+            });
+        });
+    });
+
+    myApp.onPageInit('own-edit', function(page) {
+        console.log('personnel-add');
+
+        $('.user-avatar').on('click', function() {
+            console.log('click');
+            $('input[name=avatar]').click();
+        });
+        $('input[name=avatar]').on('change', function() {
+            getBase64($(this)[0].files[0]);
+        });
+
+        $('.add-personnel-submit').on('click', function() {
+            console.log('click');
+            var account = $('#account').val();
+            var password = $('#password').val();
+            var name = $('#name').val();
+            var title = $('#title').val();
+            var level = $('#level').val();
+            var chk = chkform('personnel-form');
+            var _token = $('input[name=_token]').val();
+            var type = $('input[name=type]').val();
+            var personnelId = $('input[name=personnelId]').val();
+            var avatar = $('input[name=avatar]').attr('data-base64');
+            var url = "";
+            // console.log(avatar);
+            if (chk.status) {
+                if (type == 'add') {
+                    url = "personnel/add";
+                } else if (type == "edit") {
+                    url = "personnel/edit";
+                }
+                $$.post(url, {
+                    id: personnelId,
+                    avatar: avatar,
+                    account: account,
+                    password: password,
+                    name: name,
+                    title: title,
+                    level: level,
+                    _token: _token
+                }, function(data) {
+                    console.log(data);
                     mainView.router.refreshPreviousPage();
                     myApp.alert(data.msg, function() {
                         if (data.status == '200') {

@@ -43,7 +43,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">电话</div>
                                     <div class="item-input">
-                                        <input type="number" placeholder="输入电话"  name="phone" id="phone" class="form-input" data-empty="电话" @if($user != "")value="{{$user->phone}}"@endif>
+                                        <input type="number" placeholder="输入电话"  name="phone" id="phone" class="form-input" data-empty="电话或手机" data-other-chk="mobile" @if($user != "")value="{{$user->phone}}"@endif>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">手机</div>
                                   <div class="item-input">
-                                    <input type="text" placeholder="输入手机" name="mobile" id="mobile" class="form-input" data-empty="手机" @if($user != "")value="{{$user->mobile}}"@endif>
+                                    <input type="text" placeholder="输入手机" name="mobile" id="mobile" class="form-input" data-empty="电话或手机" data-other-chk="phone" @if($user != "")value="{{$user->mobile}}"@endif>
                                   </div>
                               </div>
                           </div>

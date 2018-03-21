@@ -27,7 +27,7 @@
         <!-- Left Panel with Reveal effect -->
         <div class="panel panel-left panel-cover">
             <div class="content-block">
-                <div class="avatar">
+            <div class="avatar" @if(session('avatar') !== null)style="background-image:url({{url('resources/assets/user')}}/user-{{session('id')}}.png)" @endif>
                   
                 </div>
                 <p>账号: @if(session('account')){{{session('account')}}} @endif</p>
@@ -46,8 +46,10 @@
                 <p>职称: @if(session('title')){{{session('title')}}} @endif</p>
                 <form action="/washDoctor/logout" method="POST">
                     {{csrf_field()}}
-                    <input type="submit" value="登出">
+                    <input type="submit" value="登出" class="button close-panel">
                 </form>
+                <br>
+                <a class="button close-panel" href="personnel/own/{{session('id')}}">编辑</a>
                 
             </div>
         </div>
@@ -89,16 +91,16 @@
                           </div>
                         </a>
                     </li>
-                    {{--  <li>
-                        <a href="customer/list" class="item-link item-content close-panel">
+                    <li>
+                        <a href="todo/list" class="item-link item-content close-panel">
                           <div class="item-media"><i class="fas fa-address-card"></i></div>
                           <div class="item-inner">
-                            <div class="item-title">顾客列表</div>
+                            <div class="item-title">待办列表</div>
                           </div>
                         </a>
-                    </li>  --}}
+                    </li>
                 </ul>
-                <div class="list-block-label">List block label text goes here</div>
+                <div class="list-block-label"></div>
             </div>
         </div>
         <!-- Your main view, should have "view-main" class -->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Todo;
+use App\User;
 use App\Customer;
 use App\Todo_notice;
 
@@ -12,8 +13,22 @@ class todoController extends Controller
     //
     public function todo_list()
     {
+        $todo = Todo::where('store',session('store'))
+        ->orderBy('start_at','ASC')
+        ->get()->all();
         
-        return view('todo/list');
+        foreach ($todo as $key => $value) {
+            $todo[$key]['customer'] = Customer::find($value['customer']);
+            $todo[$key]['creater'] = User::find($value['creater']);
+            $todo[$key]['notice'] = Todo_notice::where('todoId',$value['id'])->get();
+            foreach ($todo[$key]['notice'] as $key2 => $value2) {
+                if($value2['taker'] != ""){
+                    $user = User::find($value2['taker']);
+                    $todo[$key]['notice'][$key2]['name'] = $user->name;
+                }
+            }
+        }
+        return view('todo/list',compact('todo'));
     }
 
     public function todo_add($id="")
@@ -156,7 +171,7 @@ class todoController extends Controller
     public function todo_done(Request $request)
     {
         $id = $request->id;
-        $res = Todo::find($id)->update(array('status'=>'1'));
+        $res = Todo::find($id)->update(array('status'=>'1','done_user'=>session('id'),'done_at'=>date('Y-m-d H:i:s')));
         if($res){
             $json_arr['status'] = "200";
             $json_arr['msg'] = "更新成功"; 
@@ -165,6 +180,31 @@ class todoController extends Controller
             $json_arr['msg'] = "资料库发生错误，请稍后再试"; 
         }
         return $json_arr;
+    }
+
+    public function todo_detail($id)
+    {   
+        $data = Todo::find($id);
+        if($data != ""){
+            if($data->store != session('store')){
+                $data = array();
+            }else{
+                $data->creater = User::find($data->creater);
+                $data->customer = Customer::find($data->customer);
+                $notice =Todo_notice::where('todoId',$data->id)->get();
+                foreach ($notice as $key2 => $value2) {
+                    if($value2['taker'] != ""){
+                        $user = User::find($value2['taker']);
+                        $notice[$key2]['name'] = $user->name;
+                    }
+                }
+                $data->notice = $notice;
+            }
+        }else{
+            $data = array();
+        }
+        
+        return view('todo/detail',compact('data'));
     }
     
 }

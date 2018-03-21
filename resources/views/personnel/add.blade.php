@@ -24,8 +24,16 @@
                     <ul class="personnel-form">
                       {{csrf_field()}}
                       <input type="hidden" name="type" id="type" @if($user !="") value="edit" @else value="add" @endif>
-                    <input type="hidden" name="personnelId" id="personnelId" @if($user !="") value="{{$user->id}}" @endif>
-                        <!-- Text inputs -->
+                      <input type="hidden" name="personnelId" id="personnelId" @if($user !="") value="{{$user->id}}" @endif>
+                      <li>
+                        <div class="item-content">
+                            <div class="item-inner avatar-area">
+                                <input type="file" name="avatar" id="avatar" class="image-input" data-base64="">
+                                <img @if($user->avatar != '') src="{{$user->avatar}}" @else src="{{url('resources/assets/images/addImage.png')}}" @endif alt="" class="user-avatar image-preview" id="user-avatar">
+                            </div>
+                        </div>
+                      </li>  
+                      <!-- Text inputs -->
                         <li>
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-name"></i></div>

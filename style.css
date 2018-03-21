@@ -2,11 +2,10 @@
   background-color: #dbdbdb;
 }
 .panel .avatar {
-  background-image: url('resources/assets/images/1770172-0-1480340634.jpg');
   width: 150px;
   height: 150px;
   margin: auto;
-  background-size: 100%;
+  background-size: 150px 150px;
   background-repeat: no-repeat;
   border: 2px solid black;
   border-radius: 75px;
@@ -63,4 +62,21 @@
 }
 .view.login .container .login-area .logo {
   width: 200px;
+}
+[data-page="personnel-add"] .personnel-form li .avatar-area,
+[data-page="own-edit"] .personnel-form li .avatar-area {
+  height: 280px;
+}
+[data-page="personnel-add"] .personnel-form li .avatar-area #avatar,
+[data-page="own-edit"] .personnel-form li .avatar-area #avatar {
+  width: 260px;
+  position: absolute;
+  left: calc(50% - 137.5px);
+}
+[data-page="personnel-add"] .personnel-form li .avatar-area .user-avatar,
+[data-page="own-edit"] .personnel-form li .avatar-area .user-avatar {
+  width: 260px;
+  height: 260px;
+  position: absolute;
+  left: calc(50% - 137.5px);
 }

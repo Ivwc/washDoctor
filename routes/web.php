@@ -29,7 +29,7 @@ Route::group(['middleware' => ['web','check.middleware']], function () {
         //新增人员
         Route::get('/add', 'storeController@personnel_add');
         Route::get('/add/{id}', 'storeController@personnel_add');
-        
+        Route::get('/own/{id}', 'storeController@personnel_own');
     });
 
     // 顾客
@@ -49,6 +49,7 @@ Route::group(['middleware' => ['web','check.middleware']], function () {
         Route::get('/add/{id}', 'todoController@todo_add');
         Route::post('/remove', 'todoController@todo_remove');
         Route::post('/done', 'todoController@todo_done');
+        Route::get('/detail/{id}', 'todoController@todo_detail');
     });
 
 

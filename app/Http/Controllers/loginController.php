@@ -31,7 +31,7 @@ class loginController extends Controller
                         'msg'=>'此账号未存在或密码不符'
                     );    
                 }else{
-                    session(['account'=>$user->account,'id'=>$user->id,'title'=>$user->title,'name'=>$user->name,'level'=>$user->level,'store'=>$user->store]);
+                    session(['account'=>$user->account,'id'=>$user->id,'title'=>$user->title,'name'=>$user->name,'level'=>$user->level,'store'=>$user->store,'avatar'=>$user->avatar]);
                     $json_arr = array(
                         'status'=>'200',
                         'msg'=>'登入成功'
@@ -55,7 +55,7 @@ class loginController extends Controller
     public function logout()
     {
         if(session('account')){
-            session(['account'=>null,'id'=>null,'title'=>null,'name'=>null,'level'=>null,'store'=>null]);
+            session(['account'=>null,'id'=>null,'title'=>null,'name'=>null,'level'=>null,'store'=>null,'avatar'=>null]);
             return redirect('login');
         }
     }

@@ -18,8 +18,10 @@ class storeController extends Controller
         ->where('status',0)
         ->orderBy('start_at','ASC')
         ->get()->all();
+        
         foreach ($todo as $key => $value) {
             $todo[$key]['customer'] = Customer::find($value['customer']);
+            $todo[$key]['creater'] = User::find($value['creater']);
             $todo[$key]['notice'] = Todo_notice::where('todoId',$value['id'])->get();
             foreach ($todo[$key]['notice'] as $key2 => $value2) {
                 if($value2['taker'] != ""){
@@ -28,7 +30,26 @@ class storeController extends Controller
                 }
             }
         }
-        return view('welcome',compact('todo'));
+
+        $todo_done = Todo::where('store',session('store'))
+        ->whereBetween('start_at',[date('Y-m-d 00:00:00'),date('Y-m-d 23:59:59')])
+        ->where('status',1)
+        ->orderBy('start_at','ASC')
+        ->get()->all();
+        
+        foreach ($todo_done as $key => $value) {
+            $todo_done[$key]['customer'] = Customer::find($value['customer']);
+            $todo_done[$key]['creater'] = User::find($value['creater']);
+            $todo_done[$key]['notice'] = Todo_notice::where('todoId',$value['id'])->get();
+            foreach ($todo_done[$key]['notice'] as $key2 => $value2) {
+                if($value2['taker'] != ""){
+                    $user = User::find($value2['taker']);
+                    $todo_done[$key]['notice'][$key2]['name'] = $user->name;
+                }
+            }
+        }
+        
+        return view('welcome',compact('todo','todo_done'));
     }
 
 
@@ -48,9 +69,19 @@ class storeController extends Controller
         return view('personnel/add',compact('user'));
     }
 
-    public function add_personnel(Request $request)
+    public function personnel_own($id=0)
     {   
-        $data = $request->except('_token');
+        $user = "";
+        if($id > 0){
+            $user = User::find($id);
+        }
+        return view('personnel/own',compact('user'));
+    }
+
+    public function add_personnel(Request $request)
+    {      
+        $avatar = $request->avatar;
+        $data = $request->except('_token','avatar');
         $data['store'] = session('store');
         $chk = User::where('account',$data['account'])->get();
         if(session('level') == 0){
@@ -59,6 +90,15 @@ class storeController extends Controller
                 $json_arr['msg'] = '账号已存在';
             }else{
                 $res = User::firstOrCreate($data);
+                if($avatar != ""){
+                    //新增大头贴
+                    list($type, $avatar) = explode(';', $avatar);
+                    list(, $avatar)      = explode(',', $avatar);
+                    $avatar = base64_decode($avatar);
+                    $path = 'resources/assets/user/user-'.$res->id.'.png';
+                    file_put_contents($path, $avatar);
+                    User::find($res->id)->update(array('avatar'=>$path));
+                }
                 if($res->wasRecentlyCreated){
                     // echo "新增成功";
                     $json_arr['status'] = '200';
@@ -78,13 +118,25 @@ class storeController extends Controller
     }
     public function edit_personnel(Request $request)
     {   
-        $data = $request->except('_token','id');
+        $avatar = $request->avatar;
+        $id = $request->id;
+        $data = $request->except('_token','id','avatar');
         $data['store'] = session('store');
         $chk = User::where('account',$data['account'])->get();
         if(session('level') == 0){
             if(count($chk->all()) > 0){
                 $res = User::find($request->input('id'))->update($data);
                 if($res){
+                    if($avatar != ""){
+                        //新增大头贴
+                        list($type, $avatar) = explode(';', $avatar);
+                        list(, $avatar)      = explode(',', $avatar);
+                        $avatar = base64_decode($avatar);
+                        $path = 'resources/assets/user/user-'.$id.'.png';
+                        file_put_contents($path, $avatar);
+                        User::find($id)->update(array('avatar'=>$path));
+                        session(['avatar'=>$path]);
+                    }
                     // echo "新增成功";
                     $json_arr['status'] = '200';
                     $json_arr['msg'] = '更新成功';
