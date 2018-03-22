@@ -15,6 +15,7 @@ class AddCulomnAvatarAtUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
+            $table->string('avatar','50')->nullable()->after('id');
         });
     }
 
@@ -27,7 +28,6 @@ class AddCulomnAvatarAtUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('avatar','50')->nullable()->after('id');
         });
     }
 }
