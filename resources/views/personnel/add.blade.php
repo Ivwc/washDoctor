@@ -29,7 +29,7 @@
                         <div class="item-content">
                             <div class="item-inner avatar-area">
                                 <input type="file" name="avatar" id="avatar" class="image-input" data-base64="">
-                                <img @if($user->avatar != '') src="{{$user->avatar}}" @else src="{{url('resources/assets/images/addImage.png')}}" @endif alt="" class="user-avatar image-preview" id="user-avatar">
+                                <img @if(isset($user->avatar)) src="{{$user->avatar}}" @else src="{{url('resources/assets/images/addImage.png')}}" @endif alt="" class="user-avatar image-preview" id="user-avatar">
                             </div>
                         </div>
                       </li>  
